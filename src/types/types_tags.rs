@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Default)]
 pub struct ListTagsArgs {
     /// Range: x >= 0
     pub limit: Option<u64>,
@@ -15,7 +15,7 @@ pub struct ListTagsArgs {
 
 pub type ListTagsResponse = Vec<Tag>;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Tag {
     pub id: String,
@@ -31,7 +31,7 @@ pub struct Tag {
     pub is_carousel: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct GetTagByIdArgs {
     pub id: u64,
     pub include_template: bool,
@@ -39,7 +39,7 @@ pub struct GetTagByIdArgs {
 
 pub type GetTagByIdResponse = Tag;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct GetTagBySlugArgs {
     #[serde(skip_serializing)]
     pub slug: String,
@@ -48,7 +48,7 @@ pub struct GetTagBySlugArgs {
 
 pub type GetTagBySlugResponse = Tag;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct GetRelatedTagByIdArgs {
     #[serde(skip_serializing)]
     pub id: u64,
@@ -58,7 +58,7 @@ pub struct GetRelatedTagByIdArgs {
 
 pub type GetRelatedTagByIdResponse = Vec<TagRelationship>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct TagRelationship {
     pub id: String,
     #[serde(rename = "tagID")]
@@ -68,7 +68,7 @@ pub struct TagRelationship {
     pub rank: Option<u64>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct GetRelatedTagBySlugArgs {
     pub slug: String,
     pub omit_empty: Option<u64>,
@@ -77,7 +77,7 @@ pub struct GetRelatedTagBySlugArgs {
 
 pub type GetRelatedTagBySlugResponse = Vec<TagRelationship>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct GetTagsRelatedToIdArgs {
     pub id: u64,
     pub omit_empty: Option<bool>,
@@ -101,7 +101,7 @@ pub struct RelatedTag {
 }
 pub type GetTagsRelatedToIdResponse = Vec<RelatedTag>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct GetTagsRelatedToSlugArgs {
     pub slug: String,
     pub omit_empty: Option<bool>,
