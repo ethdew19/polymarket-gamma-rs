@@ -1,10 +1,14 @@
-use reqwest;
-
 pub mod endpoints;
 pub mod types;
 pub struct GammaClient {
     pub base_url: String,
     pub http_client: reqwest::Client,
+}
+
+impl Default for GammaClient {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl GammaClient {
@@ -37,9 +41,4 @@ pub enum RestError {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {}
-}
+mod tests {}
