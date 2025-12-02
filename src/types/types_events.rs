@@ -189,6 +189,7 @@ pub struct Event {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Market {
     pub id: String,
     pub question: Option<String>,
@@ -590,3 +591,41 @@ pub struct Template {
 pub struct ImageOptimized {
     // TODO: Define image optimized structure based on API response
 }
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetEventByIdArgs {
+    #[serde(skip_serializing)]
+    pub id: u64,
+    pub include_chat: Option<bool>,
+    pub include_template: Option<bool>,
+}
+
+pub type GetEventByIdResponse = Event;
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetEventTagsResponse {
+    pub id: String,
+    pub label: Option<String>,
+    pub slug: Option<String>,
+    pub force_show: Option<bool>,
+    pub published_at: Option<String>,
+    pub created_by: Option<u64>,
+    pub updated_by: Option<u64>,
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
+    pub force_hide: Option<bool>,
+    pub is_carousel: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetEventBySlugArgs {
+    #[serde(skip_serializing)] // this is used in the path so we dont need to serialize it
+    pub slug: String,
+    pub include_chat: bool,
+    pub include_template: bool,
+}
+
+pub type GetEventBySlugResponse = Event;
