@@ -563,33 +563,89 @@ pub struct Collection {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Category {
-    // TODO: Define category structure based on API response
+    pub id: String,
+    pub label: Option<String>,
+    pub parent_category: Option<String>,
+    pub slug: Option<String>,
+    pub published_at: Option<String>,
+    pub created_by: Option<String>,
+    pub updated_by: Option<String>,
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Tag {
-    // TODO: Define tag structure based on API response
+    pub id: String,
+    pub label: Option<String>,
+    pub slug: Option<String>,
+    pub force_show: Option<bool>,
+    pub published_at: Option<String>,
+    pub created_by: Option<i64>,
+    pub updated_by: Option<i64>,
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
+    pub force_hide: Option<bool>,
+    pub is_carousel: Option<bool>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Chat {
-    // TODO: Define chat structure based on API response
+    pub id: String,
+    pub channel_id: Option<String>,
+    pub channel_name: Option<String>,
+    pub channel_image: Option<String>,
+    pub live: Option<bool>,
+    pub start_time: Option<String>,
+    pub end_time: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct EventCreator {
-    // TODO: Define event creator structure based on API response
+    pub id: String,
+    pub creator_name: Option<String>,
+    pub creator_handle: Option<String>,
+    pub creator_url: Option<String>,
+    pub creator_image: Option<String>,
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Template {
-    // TODO: Define template structure based on API response
+    pub id: String,
+    pub event_title: Option<String>,
+    pub event_slug: Option<String>,
+    pub event_image: Option<String>,
+    pub market_title: Option<String>,
+    pub description: Option<String>,
+    pub resolution_source: Option<String>,
+    pub neg_risk: Option<bool>,
+    pub sort_by: Option<String>,
+    pub show_market_images: Option<bool>,
+    pub series_slug: Option<String>,
+    pub outcomes: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ImageOptimized {
-    // TODO: Define image optimized structure based on API response
+    pub id: String,
+    pub image_url_source: Option<String>,
+    pub image_url_optimized: Option<String>,
+    pub image_size_kb_source: Option<u64>,
+    pub image_size_kb_optimized: Option<u64>,
+    pub image_optimized_complete: Option<bool>,
+    pub image_optimized_last_updated: Option<String>,
+    pub rel_id: Option<u64>,
+    pub field: Option<String>,
+    pub relname: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -603,9 +659,10 @@ pub struct GetEventByIdArgs {
 
 pub type GetEventByIdResponse = Event;
 
+pub type GetEventTagsResponse = Vec<EventTags>;
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct GetEventTagsResponse {
+pub struct EventTags {
     pub id: String,
     pub label: Option<String>,
     pub slug: Option<String>,
