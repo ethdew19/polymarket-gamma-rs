@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::types_events::{Event, Tag};
+use super::types_events::{Event, ImageOptimized, Tag};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct PublicSearchArgs {
@@ -57,7 +57,27 @@ pub struct PublicSearchResponse {
 }
 
 #[derive(Debug, Clone, Deserialize)]
-pub struct Profile {}
+#[serde(rename_all = "camelCase")]
+pub struct Profile {
+    pub profile: Option<String>,
+    pub pseudonym: Option<String>,
+    pub display_username_public: Option<bool>,
+    pub bio: Option<String>,
+    pub is_mod: Option<bool>,
+    pub is_creator: Option<bool>,
+    pub proxy_wallet: Option<String>,
+    pub base_address: Option<String>,
+    pub profile_image: Option<String>,
+    pub profile_image_optimized: Option<ImageOptimized>,
+    pub positions: Option<Vec<Position>>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Position {
+    pub token_id: Option<String>,
+    pub position_size: Option<String>,
+}
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
