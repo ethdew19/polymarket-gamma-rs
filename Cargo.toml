@@ -2,6 +2,7 @@
 name = "polymarket-gamma-rs"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
 
 [dependencies]
 reqwest = { version = "0.12.11", features = ["json"] }
