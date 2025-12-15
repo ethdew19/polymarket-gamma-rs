@@ -14,15 +14,6 @@ A Rust wrapper for the Polymarket Gamma API, providing read-only access to publi
 
 **Note**: This wrapper provides read-only access to Polymarket's public data via the Gamma API. It does not support trading, placing orders, or account management. For trading functionality, you'll need to use Polymarket's CLOB API separately.
 
-## Installation
-
-Add this to your `Cargo.toml`:
-
-```toml
-[dependencies]
-polymarket-gamma-rs = "0.1.0"
-```
-
 ## Quick Start
 
 ```rust
