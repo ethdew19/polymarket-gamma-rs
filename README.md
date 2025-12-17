@@ -16,6 +16,16 @@ A Rust wrapper for the Polymarket Gamma API, providing read-only access to publi
 
 ## Quick Start
 
+Add this to your `Cargo.toml`:
+
+```toml
+[dependencies]
+polymarket-gamma-rs = { git = "https://github.com/ethdew19/polymarket-gamma-rs" }
+tokio = { version = "1", features = ["full"] }
+```
+
+Example Usage:
+
 ```rust
 use polymarket_gamma_rs::{GammaClient, ListMarketsArgs, RestError};
 
