@@ -1,6 +1,69 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-use super::types_events::Series;
+use super::{
+    types_events::{Category, Chat, Collection, Event},
+    types_tags::Tag,
+};
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct Series {
+    pub id: String,
+    pub ticker: Option<String>,
+    pub slug: Option<String>,
+    pub title: Option<String>,
+    pub subtitle: Option<String>,
+
+    pub series_type: Option<String>,
+
+    pub recurrence: Option<String>,
+    pub description: Option<String>,
+    pub image: Option<String>,
+    pub icon: Option<String>,
+    pub layout: Option<String>,
+    pub active: Option<bool>,
+    pub closed: Option<bool>,
+    pub archived: Option<bool>,
+    pub new: Option<bool>,
+    pub featured: Option<bool>,
+    pub restricted: Option<bool>,
+
+    pub is_template: Option<bool>,
+
+    pub template_variables: Option<bool>,
+
+    pub published_at: Option<String>,
+
+    pub created_by: Option<String>,
+
+    pub updated_by: Option<String>,
+
+    pub created_at: Option<String>,
+
+    pub updated_at: Option<String>,
+
+    pub comments_enabled: Option<bool>,
+
+    pub competitive: Option<String>,
+    pub volume24hr: Option<f64>,
+    pub volume: Option<f64>,
+    pub liquidity: Option<f64>,
+
+    pub start_date: Option<String>,
+
+    pub pyth_token_id: Option<String>,
+
+    pub cg_asset_name: Option<String>,
+
+    pub score: Option<i32>,
+    pub events: Option<Vec<Event>>,
+    pub collections: Option<Vec<Collection>>,
+    pub categories: Option<Vec<Category>>,
+    pub tags: Option<Vec<Tag>>,
+
+    pub comment_count: Option<i32>,
+
+    pub chats: Option<Vec<Chat>>,
+}
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct ListSeriesArgs {

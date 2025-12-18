@@ -1,6 +1,9 @@
 use serde::{Deserialize, Serialize};
 
-use super::types_events::{Event, ImageOptimized, Tag};
+use super::{
+    types_events::{Event, ImageOptimized},
+    types_tags::Tag,
+};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct PublicSearchArgs {
