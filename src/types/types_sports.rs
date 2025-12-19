@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 pub type GetSportsMetadataResponse = Vec<SportsMetaData>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct SportsMetaData {
     pub sport: String,
     pub image: String,
@@ -12,7 +12,7 @@ pub struct SportsMetaData {
     pub series: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Default)]
 pub struct ListTeamsArgs {
     limit: Option<u64>,
     offset: Option<u64>,
@@ -25,7 +25,7 @@ pub struct ListTeamsArgs {
 
 pub type ListTeamsResponse = Vec<ListedTeam>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct ListedTeam {
     pub id: u64,
     pub name: Option<String>,
@@ -38,4 +38,10 @@ pub struct ListedTeam {
     pub created_at: Option<String>,
     #[serde(rename = "updatedAt")]
     pub updated_at: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetValidSportsMarketTypesResponse {
+    pub market_types: Vec<String>,
 }
