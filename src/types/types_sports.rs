@@ -3,13 +3,16 @@ use serde::{Deserialize, Serialize};
 pub type GetSportsMetadataResponse = Vec<SportsMetaData>;
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SportsMetaData {
+    pub id: u32, // id isn't listed in docs...
     pub sport: String,
     pub image: String,
     pub resolution: String,
     pub ordering: String,
     pub tags: String,
     pub series: String,
+    pub created_at: String, // also not listed in docs
 }
 
 #[derive(Debug, Clone, Serialize, Default)]
@@ -26,6 +29,7 @@ pub struct ListTeamsArgs {
 pub type ListTeamsResponse = Vec<ListedTeam>;
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ListedTeam {
     pub id: u64,
     pub name: Option<String>,
@@ -34,10 +38,10 @@ pub struct ListedTeam {
     pub logo: Option<String>,
     pub abbreviation: Option<String>,
     pub alias: Option<String>,
-    #[serde(rename = "createdAt")]
     pub created_at: Option<String>,
-    #[serde(rename = "updatedAt")]
     pub updated_at: Option<String>,
+    pub provider_id: Option<u32>, // Not in the docs but in the actual response
+    pub color: Option<String>,    // Also not in the docs
 }
 
 #[derive(Debug, Clone, Deserialize)]
