@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::types::{types_markets::Market, types_series::Series, types_tags::Tag};
+use crate::types::{types_markets::Market, types_series::Series};
 
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct ListEventsArgs {
@@ -236,8 +236,6 @@ pub struct Collection {
     pub icon_optimized: Option<ImageOptimized>,
 
     pub header_image_optimized: Option<ImageOptimized>,
-
-    pub tags_list: Option<Vec<Tag>>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

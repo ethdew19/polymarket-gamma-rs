@@ -5,3 +5,4 @@ pub mod search;
 pub mod series;
 pub mod sports;
 pub mod tags;
+pub mod profiles;
