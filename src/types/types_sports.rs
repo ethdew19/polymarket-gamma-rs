@@ -17,13 +17,13 @@ pub struct SportsMetaData {
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct ListTeamsArgs {
-    limit: Option<u64>,
-    offset: Option<u64>,
-    order: Option<String>,
-    ascending: Option<bool>,
-    league: Option<Vec<String>>,
-    name: Option<Vec<String>>,
-    abbreviation: Option<Vec<String>>,
+    pub limit: Option<u64>,
+    pub offset: Option<u64>,
+    pub order: Option<String>,
+    pub ascending: Option<bool>,
+    pub league: Option<Vec<String>>,
+    pub name: Option<Vec<String>>,
+    pub abbreviation: Option<Vec<String>>,
 }
 
 pub type ListTeamsResponse = Vec<ListedTeam>;
