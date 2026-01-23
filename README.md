@@ -12,7 +12,7 @@ A Rust wrapper for the Polymarket Gamma API, providing read-only access to publi
 - **Sports**: Access sports market meta data
 - **Tags**: Query markets by tags and categories
 
-**Note**: This wrapper provides read-only access to Polymarket's public data via the Gamma API. It does not support trading, placing orders, or account management. For trading functionality, you'll need to use Polymarket's CLOB API separately.
+**Note**: This wrapper provides read-only access to Polymarket's Gamma API. It does not support trading, placing orders, or account management. For trading functionality, you'll need to use Polymarket's CLOB API separately. For access to the polymarket Data api see https://github.com/ethdew19/polymarket-data-rs.
 
 ## Quick Start
 
