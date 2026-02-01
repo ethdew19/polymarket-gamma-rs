@@ -67,7 +67,7 @@ pub struct ListEventsArgs {
 
 pub type ListEventsResponse = Vec<Event>;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Event {
     pub id: String,
@@ -190,7 +190,7 @@ pub struct Event {
     pub game_status: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Collection {
     pub id: String,
     pub ticker: Option<String>,
@@ -238,7 +238,7 @@ pub struct Collection {
     pub header_image_optimized: Option<ImageOptimized>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Category {
     pub id: String,
@@ -252,7 +252,7 @@ pub struct Category {
     pub updated_at: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Chat {
     pub id: String,
@@ -264,7 +264,7 @@ pub struct Chat {
     pub end_time: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EventCreator {
     pub id: String,
@@ -276,7 +276,7 @@ pub struct EventCreator {
     pub updated_at: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Template {
     pub id: String,
@@ -293,7 +293,7 @@ pub struct Template {
     pub outcomes: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ImageOptimized {
     pub id: String,
@@ -311,7 +311,7 @@ pub struct ImageOptimized {
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetEventByIdArgs {
-    #[serde(skip_serializing)]
+    #[serde(skip_serializing)] // used in path
     pub id: u64,
     pub include_chat: Option<bool>,
     pub include_template: Option<bool>,
@@ -320,7 +320,7 @@ pub struct GetEventByIdArgs {
 pub type GetEventByIdResponse = Event;
 
 pub type GetEventTagsResponse = Vec<EventTags>;
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EventTags {
     pub id: String,

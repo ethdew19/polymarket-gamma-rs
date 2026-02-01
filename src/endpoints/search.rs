@@ -1,46 +1,22 @@
 use crate::{
-    GammaClient, RestError,
+    client::GammaClient,
+    error::Result,
     types::types_search::{PublicSearchArgs, PublicSearchResponse},
 };
 
 impl GammaClient {
-    pub async fn public_search(
-        &self,
-        args: PublicSearchArgs,
-    ) -> Result<PublicSearchResponse, RestError> {
-        let path = format!("{}/public-search", self.base_url);
-        let response = self
-            .http_client
-            .get(path)
-            .query(&args)
-            .send()
-            .await
-            .map_err(RestError::RequestError)?;
-
-        let status = response.status();
-        let raw_text = response.text().await.map_err(RestError::RequestError)?;
-
-        if !status.is_success() {
-            return Err(RestError::HttpError {
-                status,
-                body: raw_text,
-            });
-        }
-
-        serde_json::from_str(&raw_text).map_err(|e| RestError::ParseError {
-            error: e,
-            raw_json: raw_text,
-        })
+    pub async fn public_search(&self, args: &PublicSearchArgs) -> Result<PublicSearchResponse> {
+        self.get("public-search", args).await
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{GammaClient, types::types_search::PublicSearchArgs};
+    use crate::{client::GammaClient, types::types_search::PublicSearchArgs};
 
     #[tokio::test]
     pub async fn public_search_test() {
-        let client = GammaClient::new();
+        let client = GammaClient::default();
 
         let args = PublicSearchArgs {
             q: "bitcoin".to_string(),
@@ -59,7 +35,7 @@ mod tests {
             optimized: None,
         };
 
-        let response = client.public_search(args).await;
+        let response = client.public_search(&args).await;
 
         println!("{:?}", response);
 

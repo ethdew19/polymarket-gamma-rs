@@ -1,49 +1,34 @@
 use crate::{
-    GammaClient, RestError, types::types_profiles::GetPublicProfileByWalletAddressResponse,
+    client::GammaClient,
+    error::Result,
+    types::types_profiles::{
+        GetPublicProfileByWalletAddressRequest, GetPublicProfileByWalletAddressResponse,
+    },
 };
 
 impl GammaClient {
     pub async fn get_public_profile_by_wallet_address(
         &self,
-        address: &str,
-    ) -> Result<GetPublicProfileByWalletAddressResponse, RestError> {
-        let path = format!("{}/public-profile", self.base_url);
-        let response = self
-            .http_client
-            .get(path)
-            .query(&[("address", address)])
-            .send()
-            .await
-            .map_err(RestError::RequestError)?;
-
-        let status = response.status();
-        let raw_text = response.text().await.map_err(RestError::RequestError)?;
-
-        if !status.is_success() {
-            return Err(RestError::HttpError {
-                status,
-                body: raw_text,
-            });
-        }
-
-        serde_json::from_str(&raw_text).map_err(|e| RestError::ParseError {
-            error: e,
-            raw_json: raw_text,
-        })
+        args: &GetPublicProfileByWalletAddressRequest,
+    ) -> Result<GetPublicProfileByWalletAddressResponse> {
+        self.get("public-profile", args).await
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::GammaClient;
+    use crate::{
+        client::GammaClient, types::types_profiles::GetPublicProfileByWalletAddressRequest,
+    };
 
     #[tokio::test]
     async fn get_public_profile_by_wallet_address_test() {
-        let client = GammaClient::new();
+        let client = GammaClient::default();
 
-        let response = client
-            .get_public_profile_by_wallet_address("0x56687bf447db6ffa42ffe2204a05edaa20f55839")
-            .await;
+        let args = GetPublicProfileByWalletAddressRequest {
+            address: "0x56687bf447db6ffa42ffe2204a05edaa20f55839".to_string(),
+        };
+        let response = client.get_public_profile_by_wallet_address(&args).await;
 
         println!("{:?}", response);
 

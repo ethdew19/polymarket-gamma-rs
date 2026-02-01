@@ -15,7 +15,7 @@ pub struct ListTagsArgs {
 
 pub type ListTagsResponse = Vec<Tag>;
 
-#[derive(Debug, Clone, Deserialize, Default)]
+#[derive(Debug, Clone, Deserialize, Default, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Tag {
     pub id: String,
@@ -33,6 +33,7 @@ pub struct Tag {
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetTagByIdArgs {
+    #[serde(skip_serializing)] // used in path
     pub id: u64,
     pub include_template: bool,
 }
@@ -41,7 +42,7 @@ pub type GetTagByIdResponse = Tag;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetTagBySlugArgs {
-    #[serde(skip_serializing)]
+    #[serde(skip_serializing)] // used in path
     pub slug: String,
     pub include_template: bool,
 }
@@ -50,7 +51,7 @@ pub type GetTagBySlugResponse = Tag;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetRelatedTagByIdArgs {
-    #[serde(skip_serializing)]
+    #[serde(skip_serializing)] // used in path
     pub id: u64,
     pub omit_empty: Option<bool>,
     pub status: Option<String>,
@@ -58,7 +59,7 @@ pub struct GetRelatedTagByIdArgs {
 
 pub type GetRelatedTagByIdResponse = Vec<TagRelationship>;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct TagRelationship {
     pub id: String,
     #[serde(rename = "tagID")]
@@ -70,6 +71,7 @@ pub struct TagRelationship {
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetRelatedTagBySlugArgs {
+    #[serde(skip_serializing)] // used in path
     pub slug: String,
     pub omit_empty: Option<u64>,
     pub status: Option<String>,
@@ -79,12 +81,13 @@ pub type GetRelatedTagBySlugResponse = Vec<TagRelationship>;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetTagsRelatedToIdArgs {
+    #[serde(skip_serializing)] // used in path
     pub id: u64,
     pub omit_empty: Option<bool>,
     pub status: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RelatedTag {
     pub id: String,
@@ -103,6 +106,7 @@ pub type GetTagsRelatedToIdResponse = Vec<RelatedTag>;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetTagsRelatedToSlugArgs {
+    #[serde(skip_serializing)] // used in path
     pub slug: String,
     pub omit_empty: Option<bool>,
     pub status: Option<String>,

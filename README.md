@@ -27,12 +27,12 @@ tokio = { version = "1", features = ["full"] }
 Example Usage:
 
 ```rust
-use polymarket_gamma_rs::{GammaClient, ListMarketsArgs, RestError};
+use polymarket_gamma_rs::{GammaClient, RestError, types_markets::ListMarketsArgs};
 
 #[tokio::main]
-async fn main() -> Result<(), RestError>> {
+async fn main() -> Result<(), RestError> {
     // Create a new client
-    let client = GammaClient::new();
+    let client = GammaClient::default();
 
     // List markets with default parameters
     let args = ListMarketsArgs::default();

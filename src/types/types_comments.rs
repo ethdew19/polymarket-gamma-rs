@@ -31,7 +31,7 @@ pub struct ListCommentsArgs {
 
 pub type ListCommentsResponse = Vec<ListedComment>;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ListedComment {
     pub id: String,
@@ -51,7 +51,7 @@ pub struct ListedComment {
     pub reaction_count: Option<u64>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Reaction {
     pub id: String,
@@ -65,6 +65,7 @@ pub struct Reaction {
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct GetCommentByCommentIdArgs {
+    #[serde(skip_serializing)] // used in path
     pub id: u64,
     pub get_positions: Option<bool>,
 }
@@ -73,6 +74,7 @@ pub type GetCommentsByCommentIdResponse = Vec<ListedComment>;
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct GetCommentsByUserAddressArgs {
+    #[serde(skip_serializing)] //used in path
     pub user_address: String,
     pub limit: Option<u64>,
     pub offset: Option<u64>,

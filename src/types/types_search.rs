@@ -50,7 +50,7 @@ pub struct PublicSearchArgs {
     pub optimized: Option<bool>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 
 pub struct PublicSearchResponse {
     pub events: Option<Vec<Event>>,
@@ -59,7 +59,7 @@ pub struct PublicSearchResponse {
     pub pagination: Page,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Profile {
     pub profile: Option<String>,
@@ -75,14 +75,14 @@ pub struct Profile {
     pub positions: Option<Vec<Position>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Position {
     pub token_id: Option<String>,
     pub position_size: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Page {
     pub has_more: bool,

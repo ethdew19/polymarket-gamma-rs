@@ -1,5 +1,6 @@
 use crate::{
-    GammaClient, RestError,
+    client::GammaClient,
+    error::Result,
     types::types_sports::{
         GetSportsMetadataResponse, GetValidSportsMarketTypesResponse, ListTeamsArgs,
         ListTeamsResponse,
@@ -7,99 +8,31 @@ use crate::{
 };
 
 impl GammaClient {
-    pub async fn list_teams(&self, args: ListTeamsArgs) -> Result<ListTeamsResponse, RestError> {
-        let path = format!("{}/teams", self.base_url);
-
-        let response = self
-            .http_client
-            .get(path)
-            .query(&args)
-            .send()
-            .await
-            .map_err(RestError::RequestError)?;
-
-        let status = response.status();
-        let raw_text = response.text().await.map_err(RestError::RequestError)?;
-
-        if !status.is_success() {
-            return Err(RestError::HttpError {
-                status,
-                body: raw_text,
-            });
-        }
-
-        serde_json::from_str(&raw_text).map_err(|e| RestError::ParseError {
-            error: e,
-            raw_json: raw_text,
-        })
+    pub async fn list_teams(&self, args: &ListTeamsArgs) -> Result<ListTeamsResponse> {
+        self.get("teams", args).await
     }
 
-    pub async fn get_sports_metadata(&self) -> Result<GetSportsMetadataResponse, RestError> {
-        let path = format!("{}/sports", self.base_url);
-
-        let response = self
-            .http_client
-            .get(path)
-            .send()
-            .await
-            .map_err(RestError::RequestError)?;
-
-        let status = response.status();
-        let raw_text = response.text().await.map_err(RestError::RequestError)?;
-
-        if !status.is_success() {
-            return Err(RestError::HttpError {
-                status,
-                body: raw_text,
-            });
-        }
-
-        serde_json::from_str(&raw_text).map_err(|e| RestError::ParseError {
-            error: e,
-            raw_json: raw_text,
-        })
+    pub async fn get_sports_metadata(&self) -> Result<GetSportsMetadataResponse> {
+        self.get("sports", &()).await
     }
 
-    pub async fn get_valid_sports_market_types(
-        &self,
-    ) -> Result<GetValidSportsMarketTypesResponse, RestError> {
-        let path = format!("{}/sports/market-types", self.base_url);
-
-        let response = self
-            .http_client
-            .get(path)
-            .send()
-            .await
-            .map_err(RestError::RequestError)?;
-
-        let status = response.status();
-        let raw_text = response.text().await.map_err(RestError::RequestError)?;
-
-        if !status.is_success() {
-            return Err(RestError::HttpError {
-                status,
-                body: raw_text,
-            });
-        }
-
-        serde_json::from_str(&raw_text).map_err(|e| RestError::ParseError {
-            error: e,
-            raw_json: raw_text,
-        })
+    pub async fn get_valid_sports_market_types(&self) -> Result<GetValidSportsMarketTypesResponse> {
+        self.get("sports/market-types", &()).await
     }
 }
 
 #[cfg(test)]
 mod tests {
 
-    use crate::{GammaClient, types::types_sports::ListTeamsArgs};
+    use crate::{client::GammaClient, types::types_sports::ListTeamsArgs};
 
     #[tokio::test]
     async fn list_teams_test() {
-        let client = GammaClient::new();
+        let client = GammaClient::default();
 
-        let args = ListTeamsArgs::default();
-        let response = client.list_teams(args).await;
+        let mut args = ListTeamsArgs::default();
+        args.league = Some(vec!["atp".to_string(), "lol".to_string()]);
+        let response = client.list_teams(&args).await;
 
         println!("{:?}", response);
 
@@ -108,7 +41,7 @@ mod tests {
 
     #[tokio::test]
     async fn get_sports_metadata_test() {
-        let client = GammaClient::new();
+        let client = GammaClient::default();
         let response = client.get_sports_metadata().await;
 
         println!("{:?}", response);
@@ -118,7 +51,7 @@ mod tests {
 
     #[tokio::test]
     async fn get_valid_sports_market_types_test() {
-        let client = GammaClient::new();
+        let client = GammaClient::default();
         let response = client.get_valid_sports_market_types().await;
 
         println!("{:?}", response);

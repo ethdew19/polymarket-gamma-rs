@@ -1,6 +1,10 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, Serialize)]
+pub struct GetPublicProfileByWalletAddressRequest {
+    pub address: String,
+}
+#[derive(Deserialize, Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetPublicProfileByWalletAddressResponse {
     pub created_at: Option<String>,
@@ -15,7 +19,7 @@ pub struct GetPublicProfileByWalletAddressResponse {
     pub verified_badge: Option<bool>,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, Serialize)]
 pub struct User {
     pub id: String,
     pub creator: bool,

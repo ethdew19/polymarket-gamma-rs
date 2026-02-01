@@ -5,7 +5,7 @@ use super::{
     types_tags::Tag,
 };
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Series {
     pub id: String,
     pub ticker: Option<String>,
@@ -112,6 +112,7 @@ pub type ListSeriesResponse = Vec<Series>;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetSeriesByIdArgs {
+    #[serde(skip_serializing)] // used in path
     pub id: u64,
 
     #[serde(skip_serializing_if = "Option::is_none")]

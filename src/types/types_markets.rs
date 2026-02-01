@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use super::types_events::ImageOptimized;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Market {
     pub id: String,
@@ -140,8 +140,9 @@ pub struct Market {
 
     pub short_outcomes: Option<String>,
 
+    #[serde(rename = "teamAID")]
     pub team_a_id: Option<String>,
-
+    #[serde(rename = "teamBID")]
     pub team_b_id: Option<String>,
 
     pub uma_bond: Option<String>,
@@ -303,6 +304,7 @@ pub type ListMarketsResponse = Vec<Market>;
 
 #[derive(Serialize, Debug, Clone)]
 pub struct GetMarketByIdArgs {
+    #[serde(skip_serializing)] //used in path
     pub id: u64,
     pub include_tag: Option<bool>,
 }
@@ -312,6 +314,7 @@ pub type GetMarketTagsByIdResponse = Vec<EventTags>;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GetMarketBySlugArgs {
+    #[serde(skip_serializing)] //used in path
     pub slug: String,
     pub include_tag: Option<bool>,
 }
