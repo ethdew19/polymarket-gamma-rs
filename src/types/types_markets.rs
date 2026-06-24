@@ -95,6 +95,7 @@ pub struct Market {
 
     pub group_item_threshold: Option<String>,
 
+    #[serde(rename = "questionID")]
     pub question_id: Option<String>,
 
     pub uma_end_date: Option<String>,
