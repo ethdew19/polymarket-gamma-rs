@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::types::{types_markets::Market, types_series::Series};
+use crate::types::{types_markets::Market, types_series::Series, types_tags::Tag};
 
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct ListEventsArgs {
@@ -157,11 +157,48 @@ pub struct Event {
     pub categories: Option<Vec<Category>>,
     pub collections: Option<Vec<Collection>>,
     pub series: Option<Vec<Series>>,
+    pub tags: Option<Vec<Tag>>,
     pub chats: Option<Vec<Chat>>,
 
     pub event_creators: Option<Vec<EventCreator>>,
 
     pub tweet_count: Option<i32>,
+
+    pub cyom: Option<bool>,
+
+    pub closed_time: Option<String>,
+
+    pub show_all_outcomes: Option<bool>,
+
+    pub show_market_images: Option<bool>,
+
+    pub automatically_resolved: Option<bool>,
+
+    pub enable_neg_risk: Option<bool>,
+
+    pub automatically_active: Option<bool>,
+
+    pub event_date: Option<String>,
+
+    pub start_time: Option<String>,
+
+    pub event_week: Option<i32>,
+
+    pub series_slug: Option<String>,
+
+    pub score: Option<String>,
+
+    pub elapsed: Option<String>,
+
+    pub period: Option<String>,
+
+    pub live: Option<bool>,
+
+    pub ended: Option<bool>,
+
+    pub finished_timestamp: Option<String>,
+
+    pub gmp_chart_mode: Option<String>,
 
     pub featured_order: Option<i32>,
 
@@ -346,3 +383,132 @@ pub struct GetEventBySlugArgs {
 }
 
 pub type GetEventBySlugResponse = Event;
+
+#[derive(Debug, Clone, Default, Serialize)]
+pub struct ListEventsKeysetArgs {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub limit: Option<u32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub order: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ascending: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub after_cursor: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub id: Option<Vec<i32>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slug: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub closed: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub live: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub featured: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cyom: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title_search: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub liquidity_min: Option<f64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub liquidity_max: Option<f64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub volume_min: Option<f64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub volume_max: Option<f64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_date_min: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_date_max: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub end_date_min: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub end_date_max: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_time_min: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_time_max: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tag_id: Option<Vec<i32>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tag_slug: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub exclude_tag_id: Option<Vec<i32>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub related_tags: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tag_match: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub series_id: Option<Vec<i32>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub game_id: Option<Vec<i32>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub event_date: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub event_week: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub featured_order: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recurrence: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub created_by: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parent_event_id: Option<i32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub include_children: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub partner_slug: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub include_chat: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub include_template: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub include_best_lines: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub locale: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct ListEventsKeysetResponse {
+    pub events: Vec<Event>,
+    pub next_cursor: Option<String>,
+}

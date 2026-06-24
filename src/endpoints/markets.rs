@@ -3,13 +3,21 @@ use crate::{
     error::Result,
     types::types_markets::{
         GetMarketByIdArgs, GetMarketByIdResponse, GetMarketBySlugArgs, GetMarketBySlugResponse,
-        GetMarketTagsByIdResponse, ListMarketsArgs, ListMarketsResponse,
+        GetMarketTagsByIdResponse, ListMarketsArgs, ListMarketsKeysetArgs,
+        ListMarketsKeysetResponse, ListMarketsResponse,
     },
 };
 
 impl GammaClient {
     pub async fn list_markets(&self, args: &ListMarketsArgs) -> Result<ListMarketsResponse> {
         self.get("markets", args).await
+    }
+
+    pub async fn list_markets_keyset(
+        &self,
+        args: &ListMarketsKeysetArgs,
+    ) -> Result<ListMarketsKeysetResponse> {
+        self.get("markets/keyset", args).await
     }
 
     pub async fn get_market_by_id(
@@ -35,7 +43,9 @@ impl GammaClient {
 mod tests {
     use crate::{
         client::GammaClient,
-        types::types_markets::{GetMarketByIdArgs, GetMarketBySlugArgs, ListMarketsArgs},
+        types::types_markets::{
+            GetMarketByIdArgs, GetMarketBySlugArgs, ListMarketsArgs, ListMarketsKeysetArgs,
+        },
     };
 
     #[tokio::test]
@@ -78,6 +88,47 @@ mod tests {
         println!("{:?}", response);
 
         assert!(response.is_ok());
+    }
+
+    #[tokio::test]
+    async fn list_markets_keyset_pagination_test() {
+        let client = GammaClient::default();
+        let pages = 3;
+        let per_page = 5;
+
+        let mut cursor = None;
+        let mut total = 0;
+
+        for page in 0..pages {
+            let args = ListMarketsKeysetArgs {
+                limit: Some(per_page),
+                after_cursor: cursor.clone(),
+                ..Default::default()
+            };
+            let response = client.list_markets_keyset(&args).await.unwrap();
+
+            assert!(!response.markets.is_empty(), "page {} returned no markets", page);
+            assert!(
+                response.markets.len() <= per_page as usize,
+                "page {} returned more than limit",
+                page,
+            );
+            total += response.markets.len();
+
+            println!(
+                "page {}: {} markets, next_cursor: {:?}",
+                page,
+                response.markets.len(),
+                response.next_cursor,
+            );
+
+            match response.next_cursor {
+                Some(c) => cursor = Some(c),
+                None => break,
+            }
+        }
+
+        assert!(total > per_page as usize, "should have fetched more than one page of markets");
     }
 
     #[tokio::test]

@@ -153,6 +153,8 @@ pub struct Market {
 
     pub volume_24hr_amm: Option<f64>,
 
+    pub volume_1wk_amm: Option<f64>,
+
     pub volume_1mo_amm: Option<f64>,
 
     pub volume_1yr_amm: Option<f64>,
@@ -267,6 +269,19 @@ pub struct Market {
     pub rfq_enabled: Option<bool>,
 
     pub event_start_time: Option<String>,
+
+    pub fees_enabled: Option<bool>,
+
+    pub fee_schedule: Option<FeeSchedule>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FeeSchedule {
+    pub exponent: Option<f64>,
+    pub rate: Option<f64>,
+    pub taker_only: Option<bool>,
+    pub rebate_rate: Option<f64>,
 }
 
 #[derive(Serialize, Default, Debug, Clone)]
@@ -320,3 +335,93 @@ pub struct GetMarketBySlugArgs {
 }
 
 pub type GetMarketBySlugResponse = Market;
+
+#[derive(Debug, Clone, Default, Serialize)]
+pub struct ListMarketsKeysetArgs {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub limit: Option<u32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub order: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ascending: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub after_cursor: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub id: Option<Vec<u64>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slug: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub clob_token_ids: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub condition_ids: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub market_maker_address: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub liquiditity_num_min: Option<u64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub liquiditity_num_max: Option<u64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub volume_num_min: Option<f64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub volume_num_max: Option<f64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_date_min: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_date_max: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub end_date_min: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub end_date_max: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tag_id: Option<i64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub related_tags: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cyom: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub uma_resolution_status: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub game_id: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sports_market_types: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rewards_min_size: Option<f64>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub question_ids: Option<Vec<String>>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub include_tag: Option<bool>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub closed: Option<bool>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct ListMarketsKeysetResponse {
+    pub markets: Vec<Market>,
+    pub next_cursor: Option<String>,
+}

@@ -3,13 +3,21 @@ use crate::{
     error::Result,
     types::types_events::{
         GetEventByIdArgs, GetEventByIdResponse, GetEventBySlugArgs, GetEventBySlugResponse,
-        GetEventTagsResponse, ListEventsArgs, ListEventsResponse,
+        GetEventTagsResponse, ListEventsArgs, ListEventsKeysetArgs, ListEventsKeysetResponse,
+        ListEventsResponse,
     },
 };
 
 impl GammaClient {
     pub async fn list_events(&self, args: &ListEventsArgs) -> Result<ListEventsResponse> {
         self.get("events", args).await
+    }
+
+    pub async fn list_events_keyset(
+        &self,
+        args: &ListEventsKeysetArgs,
+    ) -> Result<ListEventsKeysetResponse> {
+        self.get("events/keyset", args).await
     }
 
     pub async fn get_event_by_id(&self, args: &GetEventByIdArgs) -> Result<GetEventByIdResponse> {
@@ -32,7 +40,9 @@ impl GammaClient {
 mod tests {
     use crate::{
         client::GammaClient,
-        types::types_events::{GetEventByIdArgs, GetEventBySlugArgs, ListEventsArgs},
+        types::types_events::{
+            GetEventByIdArgs, GetEventBySlugArgs, ListEventsArgs, ListEventsKeysetArgs,
+        },
     };
 
     #[tokio::test]
@@ -74,6 +84,47 @@ mod tests {
         println!("{:?}", response);
 
         assert!(response.is_ok());
+    }
+
+    #[tokio::test]
+    async fn list_events_keyset_pagination_test() {
+        let client = GammaClient::default();
+        let pages = 3;
+        let per_page = 5;
+
+        let mut cursor = None;
+        let mut total = 0;
+
+        for page in 0..pages {
+            let args = ListEventsKeysetArgs {
+                limit: Some(per_page),
+                after_cursor: cursor.clone(),
+                ..Default::default()
+            };
+            let response = client.list_events_keyset(&args).await.unwrap();
+
+            assert!(!response.events.is_empty(), "page {} returned no events", page);
+            assert!(
+                response.events.len() <= per_page as usize,
+                "page {} returned more than limit",
+                page,
+            );
+            total += response.events.len();
+
+            println!(
+                "page {}: {} events, next_cursor: {:?}",
+                page,
+                response.events.len(),
+                response.next_cursor,
+            );
+
+            match response.next_cursor {
+                Some(c) => cursor = Some(c),
+                None => break,
+            }
+        }
+
+        assert!(total > per_page as usize, "should have fetched more than one page of events");
     }
 
     #[tokio::test]
